@@ -1,0 +1,124 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+package cl_ucn_disc_pa_taller2 {
+
+package models {
+
+abstract class Carta {
+- nombre: String
+- manaCost: String[]
+- tipo: String
+- texto: String
+- poder: int
+- resistencia: int
+- cmc: int
+
++ Carta(nombre: String, manaCost: String, tipo: String, texto: String, poder: int, resistencia: int, cmc: int)
++ calcularCMC(): int
++ get's()
++ set's()
+}
+
+class Tierra extends Carta{
+- color: String[]
++ Tierra(nombre: String, tipo: String, color: String),
++ get's()
++ set's()
+}
+
+
+class Mazo {
+- cartas: Carta[]
+- sideboard: Carta[]
+- cantidaActualCartas: int
+- cantidadMaximaCartas: int
+- cantidaActualSideboard: int
+- cantidadMaximaSideboard int
+
++ Mazo(cantidadMaxima: int)
++ agregarCarta(nombreCarta: String, cantidadCopias: int)
++ agregarSideboard(carta: Carta)
++ buscarCarta(nombreCarta: String): String
++ eliminarCarta(nombreCarta: String, cantidadCopias: int)
++ eliminarSideboard(nombreCarta: String, cantidadCopias: int)
++ validarNumeroCartas(): boolean
++ obtenerNumroCartas(): int
++ obtenerNombre(): String
++ get's()
++ set's()
+
+}
+class Usuario {
+- nombreUsuario: String
+- contrasenia: String
+- mazos: Mazo[]
++ Usuario(nombreUsuario: String, contrasenia: String, mazos: Mazo)
++ get's()
++ set's()
+
+}
+
+}
+
+package services {
+
+interface ISistemaMazo <<interface>> {
+    + construirMazo(): boolean
+    + verMazos(): String
+    + obtenerCarta(nombreCarta: String): String
+    + cerrarSesion(): boolean
+}
+
+class SistemaMazo {
+- archivos: Archivos
+- mazos: Mazo
+
++ construirMazo(mazos: Mazo): boolean
++ verMazos(mazos: Mazo): String
++ obtenerCarta(mazos: Mazo): String
++ modificarSideboard(usuario: Usuario)
++ guardarMazos(usuario: Usuario)
++ cerrarSesion(): boolean
+}
+
+class GestorArchivos {
++ leerArchivoCSV(Archivo: String): Carta[]
++ leerArchivoTXT(Archivo: String): Tierra[]
++ escribirArchivoMazos(usuario: Usuario)
+}
+
+class GestorUsuarios {
+- usuariosRegistrados: Usuario[]
+
++ registrarUsuario(nombreUsuario: String, contrasenia: String): boolean
++ iniciarSesion(nombreUsuario: String, contrasenia: String): boolean
++ cerrarSesion(usuario: Usuario)
+}
+}
+
+
+package utils {
+class Instalador {
+- sistemaHaInstalar : ISistemaMazo
++ Instalador()
++ instalarSistema(): ISistemaMazo
+}
+
+Instalador "1" ..> "1" SistemaMazo : instancia
+Instalador "1" --> "1" ISistemaMazo : instala
+
+SistemaMazo ..|> ISistemaMazo
+SistemaMazo --> GestorArchivos
+SistemaMazo --> GestorUsuarios
+
+SistemaMazo "1" *--> "1..*" Mazo: gestiona
+SistemaMazo "1" *--> "1..*" Usuario: registra
+
+Usuario "1" *-- "1..*" Mazo: posee
+Mazo "1" *-- "0..*" Carta: contiene
+
+}
+}
+
+@enduml

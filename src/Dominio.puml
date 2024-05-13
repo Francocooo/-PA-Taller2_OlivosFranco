@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+
+class Usuario {
+Nombre de usuario
+Contraseña
+}
+
+class Mazo {
+Lista de cartas
+Lista de sideboard
+
+}
+
+abstract class Carta {
+Nombre
+Costo de mana
+Tipo
+Texto
+Poder
+Resistencia
+cmc
+}
+
+class Tierra{
+Nombre
+Tipo
+Color
+}
+
+note "Los mazos deben tener un mínimo de 60 cartas en la baraja principal y \n Las sideboard pueden tener hasta máximo 15 cartas" as N1
+
+
+Mazo "1" -- "0..*" Carta: contiene
+Usuario "1" -- "1..*" Mazo: posee
+Carta <|-- Tierra: hereda
+N1 --> Mazo
+
+@enduml
