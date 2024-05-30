@@ -22,7 +22,7 @@ abstract class Carta {
 
 class Tierra extends Carta{
 - color: String[]
-+ Tierra(nombre: String, tipo: String, color: String),
++ Tierra(nombre: String, tipo: String, color: String)
 + get's()
 + set's()
 }
@@ -43,7 +43,7 @@ class Mazo {
 + eliminarCarta(nombreCarta: String, cantidadCopias: int)
 + eliminarSideboard(nombreCarta: String, cantidadCopias: int)
 + validarNumeroCartas(): boolean
-+ obtenerNumroCartas(): int
++ obtenerNumeroCartas(): int
 + obtenerNombre(): String
 + get's()
 + set's()
